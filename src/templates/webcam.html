@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhận diện Webcam realtime</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f3e5f5, #e1f5fe);
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 30px 0 10px;
+            color: #2c3e50;
+            font-size: 28px;
+        }
+
+        .nav {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .nav a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: #ecf0f1;
+            transition: 0.3s;
+        }
+
+        .nav a:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        .video-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background: white;
+            padding: 30px 20px;
+            border-radius: 20px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            width: fit-content;
+            margin: 0 auto;
+        }
+
+        img {
+            border-radius: 15px;
+            border: 3px solid #3498db;
+            max-width: 100%;
+        }
+
+        .info-box {
+            margin-top: 15px;
+            font-size: 16px;
+            color: #555;
+            text-align: center;
+        }
+
+        .info-box span {
+            display: block;
+            margin: 4px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Nhận diện realtime từ Webcam</h1>
+
+    <div class="nav">
+        <a href="{{ url_for('index') }}">Upload Ảnh</a>
+        <a href="{{ url_for('webcam') }}">Webcam Realtime</a>
+    </div>
+
+    <div class="video-container">
+        <img src="{{ url_for('video_feed') }}" width="640" height="480" alt="Luồng webcam realtime">
+        <div class="info-box">
+            <span>Kết quả: <strong>REAL / FAKE</strong> sẽ hiển thị trực tiếp trên video</span>
+        </div>
+    </div>
+</body>
+
+</html>

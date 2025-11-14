@@ -1,0 +1,26 @@
+# Bỏ môi trường ảo
+venv/
+.venv/
+
+# Bỏ các file Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Bỏ các file log
+*.log
+
+# Bỏ các file tạm
+*.swp
+*.swo
+*.tmp
+
+# Bỏ các file hệ thống
+.DS_Store
+Thumbs.db
+
+# Bỏ các folder upload/output
+runs/
+
+

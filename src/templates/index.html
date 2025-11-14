@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phân tích ảnh thật / giả</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #fce4ec);
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 30px 0 10px;
+            color: #2c3e50;
+            font-size: 28px;
+        }
+
+        .nav {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .nav a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: #ecf0f1;
+            transition: 0.3s;
+        }
+
+        .nav a:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        .center-box {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 20px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            width: 360px;
+            text-align: center;
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+            color: #34495e;
+        }
+
+        .file-input {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .file-input input[type="file"] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+
+        .file-label {
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        .file-label:hover {
+            background: #2980b9;
+        }
+
+        .file-name {
+            margin-top: 8px;
+            font-size: 14px;
+            color: #555;
+            min-height: 18px;
+        }
+
+        .action-button {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .action-button:hover {
+            background: #27ae60;
+        }
+
+        .result-section {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .result-filename {
+            font-size: 14px;
+            color: #666;
+        }
+
+        img {
+            display: block;
+            margin: 0 auto 16px;
+            border-radius: 15px;
+            max-width: 100%;
+        }
+
+        .df-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .df-table th,
+        .df-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .df-table th {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .verdict {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 10px;
+            background: #fdecea;
+        }
+
+        .note-text {
+            font-size: 14px;
+            color: #c2a2e0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Website phân tích ảnh thật / giả</h1>
+
+    <div class="nav">
+        <a href="{{ url_for('index') }}">Upload Ảnh</a>
+        <a href="{{ url_for('webcam') }}">Webcam Realtime</a>
+    </div>
+
+    <div class="center-box">
+        <div class="card">
+            <h2>Từ ảnh lưu</h2>
+            <form action="/" method="POST" enctype="multipart/form-data">
+                <div class="file-input">
+                    <label class="file-label" for="file">Chọn ảnh</label>
+                    <input type="file" name="file" id="file" accept="image/*" required title="Chọn ảnh từ máy">
+                </div>
+                <div id="file-name" class="file-name">Chưa chọn file</div>
+                <button type="submit" class="action-button">Phân tích ảnh</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>Webcam realtime</h2>
+            <a href="{{ url_for('webcam') }}">
+                <button class="action-button" type="button">Mở webcam</button>
+            </a>
+        </div>
+    </div>
+
+    {% if filename %}
+    <div class="result-section">
+        <div class="result-header">
+            <h2>Ảnh đã tải lên</h2>
+            <div class="result-filename">Tên file: {{ filename }}</div>
+        </div>
+
+        <img src="{{ url_for('static', filename='uploads/' + filename) }}" alt="Ảnh gốc">
+
+        {% if yolo_plotted %}
+        <h3>Ảnh với bounding boxes (YOLO):</h3>
+        <img src="{{ url_for('static', filename='uploads/' + yolo_plotted) }}" alt="Ảnh đã vẽ YOLO">
+        {% endif %}
+
+        <h3>Kết quả từ YOLO:</h3>
+        {% if yolo_message %}
+        <pre>{{ yolo_message }}</pre>
+        {% else %}
+        <table class="df-table">
+            <thead>
+                <tr>
+                    <th>Tên lớp YOLO</th>
+                    <th>Class ID</th>
+                    <th>Độ tin cậy</th>
+                    <th>Box</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in yolo_results %}
+                <tr>
+                    <td>{{ row['name'] }}</td>
+                    <td>{{ row['class'] }}</td>
+                    <td>{{ "%.2f"|format(row['confidence'] * 100) }}%</td>
+                    <td>{{ row['box'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+
+        <h3>Kết quả từ EfficientNet‑B4 custom:</h3>
+        {% if verdict %}
+        <div class="verdict">
+            Kết luận: {{ verdict }}<br>
+            <span class="note-text">Xác suất REAL: {{ "%.2f"|format(prob * 100) }}%</span>
+        </div>
+        {% else %}
+        <p>Không có kết quả từ EfficientNet‑B4 custom.</p>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <script>
+        const fileInput = document.getElementById('file');
+        const fileName = document.getElementById('file-name');
+        fileInput.addEventListener('change', function () {
+            if (this.files && this.files.length > 0) {
+                fileName.textContent = this.files[0].name;
+            } else {
+                fileName.textContent = 'Chưa chọn file';
+            }
+        });
+    </script>
+</body>
+
+</html>
