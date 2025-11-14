@@ -1,6 +1,6 @@
 # ĐÂY LÀ HƯỚNG DẪN SỬ DỤNG SRC
 
-**TẢI 2 MODEL TRƯỚC, ĐỂ CHẠY CODE, RỒI HÃY LÀM CÁC BƯỚC TIẾP THEO** *Link tải:*  ![Google Drive](https://drive.google.com/drive/folders/1PKR0FWo0GmaohdHH9aLMOK_Lg5Z7Em0Q?usp=sharing/)
+**TẢI 2 MODEL TRƯỚC, ĐỂ CHẠY CODE, RỒI HÃY LÀM CÁC BƯỚC TIẾP THEO** *Link tải:*  [Google Drive](https://drive.google.com/drive/folders/1PKR0FWo0GmaohdHH9aLMOK_Lg5Z7Em0Q?usp=sharing/)
 
 # 1. Bật terminal(Chuyển sang git bash) và xem thử đang ở vị trí folder nào
 
@@ -14,7 +14,7 @@
 - 2.3. `pip install -r requirements.txt` (Cài các thư viện cần thiết - Nếu lỗi hãy coi lại vị trí file requirements.txt)
 - 2.4. `python app.py` (Trong terminal (đã bật venv), gõ lệnh này )
 
-**Nếu chạy thành công, sẽ hiện log Flask và bạn mở trình duyệt tại địa chỉ: ![http://127.0.0.1:5000/](http://127.0.0.1:5000/)**
+**Nếu chạy thành công, sẽ hiện log Flask và bạn mở trình duyệt tại địa chỉ: [http://127.0.0.1:5000/](http://127.0.0.1:5000/)**
 
 ========
 
