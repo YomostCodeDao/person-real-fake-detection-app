@@ -1,5 +1,7 @@
 # ĐÂY LÀ HƯỚNG DẪN SỬ DỤNG SRC
 
+**TẢI 2 MODEL TRƯỚC, ĐỂ CHẠY CODE, RỒI HÃY LÀM CÁC BƯỚC TIẾP THEO** *Link tải:*  ![Google Drive](https://drive.google.com/drive/folders/1PKR0FWo0GmaohdHH9aLMOK_Lg5Z7Em0Q?usp=sharing/)
+
 # 1. Bật terminal(Chuyển sang git bash) và xem thử đang ở vị trí folder nào
 
 - Nếu là /src thì không cần làm gì cả
