@@ -1,3 +1,4 @@
+<!-- src/templates/index.html -->
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -126,6 +127,13 @@
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            /* Chỉnh để các ảnh nằm cùng một hàng */
+            align-items: center;
+            flex-wrap: wrap;
+            /* Đảm bảo không bị đẩy ra ngoài */
+            gap: 20px;
         }
 
         .result-header {
@@ -144,9 +152,10 @@
 
         img {
             display: block;
-            margin: 0 auto 16px;
+            margin: 0;
             border-radius: 15px;
-            max-width: 100%;
+            max-width: 45%;
+            /* Đảm bảo ảnh không quá rộng */
         }
 
         .df-table {
@@ -226,8 +235,10 @@
         <img src="{{ url_for('static', filename='uploads/' + filename) }}" alt="Ảnh gốc">
 
         {% if yolo_plotted %}
-        <h3>Ảnh với bounding boxes (YOLO):</h3>
-        <img src="{{ url_for('static', filename='uploads/' + yolo_plotted) }}" alt="Ảnh đã vẽ YOLO">
+        <div>
+            <h3>Ảnh với bounding boxes (YOLO):</h3>
+            <img src="{{ url_for('static', filename='uploads/' + yolo_plotted) }}" alt="Ảnh đã vẽ YOLO">
+        </div>
         {% endif %}
 
         <h3>Kết quả từ YOLO:</h3>

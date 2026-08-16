@@ -1,3 +1,4 @@
+# src/app.py
 import os
 import cv2
 import torch
@@ -24,7 +25,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 class AntiSpoofModel(nn.Module):
     def __init__(self):
         super().__init__()
-        self.backbone = timm.create_model("efficientnet_b4", pretrained=False)
+        self.backbone = timm.create_model("efficientnet_b2", pretrained=False)
         n_features = self.backbone.classifier.in_features
         self.backbone.classifier = nn.Identity()
         self.classifier = nn.Sequential(
@@ -44,13 +45,15 @@ class AntiSpoofModel(nn.Module):
 model_yolo = YOLO('yolo11n.pt')
 
 model_antispoof = AntiSpoofModel().to(device)
-ckpt_path = 'best_face_fake_detector.pth'
+ckpt_path = 'best_face_fake_detector14b211.pth'
 if os.path.exists(ckpt_path):
-    model_antispoof.load_state_dict(torch.load(ckpt_path, map_location=device))
-    print(f"✅ Đã load model EfficientNet-B4: {ckpt_path}")
-    print("✅ Đã load model YOLOv11")
+    state = torch.load(ckpt_path, map_location=device)
+    model_antispoof.load_state_dict(state, strict=False)  # cho phép thiếu/thừa keys
+    print(f"=== Đã load model EfficientNet-B4: {ckpt_= path}")
+    print("=== Đã load model YOLOv11")
 else:
     print("⚠️ Không tìm thấy checkpoint, model chưa được load!")
+
 
 model_antispoof.eval()
 
@@ -58,8 +61,7 @@ model_antispoof.eval()
 infer_tfms = transforms.Compose([
     transforms.Resize((224, 224)),
     transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485,0.456,0.406],
-                         std=[0.229,0.224,0.225]),
+    transforms.Normalize(mean=[0.485,0.456,0.406], std=[0.229,0.224,0.225]),
 ])
 
 # ============================
