@@ -48,16 +48,16 @@ model_antispoof = AntiSpoofModel().to(device)
 ckpt_path = 'best_face_fake_detector14b211.pth'
 if os.path.exists(ckpt_path):
     state = torch.load(ckpt_path, map_location=device)
-    model_antispoof.load_state_dict(state, strict=False)  # cho phép thiếu/thừa keys
-    print(f"=== Đã load model EfficientNet-B4: {ckpt_= path}")
-    print("=== Đã load model YOLOv11")
+    model_antispoof.load_state_dict(state, strict=False)  # Allow missing/extra keys
+    print(f"=== Loaded EfficientNet-B4 model: {ckpt_path}")
+    print("=== Loaded YOLOv11 model")
 else:
-    print("⚠️ Không tìm thấy checkpoint, model chưa được load!")
+    print("⚠️ Checkpoint not found, model not loaded!")
 
 
 model_antispoof.eval()
 
-# Transform cho inference
+# Transform for inference
 infer_tfms = transforms.Compose([
     transforms.Resize((224, 224)),
     transforms.ToTensor(),
@@ -65,7 +65,7 @@ infer_tfms = transforms.Compose([
 ])
 
 # ============================
-# Hàm phụ trợ
+# Helper functions
 # ============================
 def allowed_file(filename: str) -> bool:
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -90,10 +90,10 @@ def predict_yolo(image_path: str, save_plotted: bool = True):
         else:
             records = df.to_dict(orient='records')
         if len(records) == 0:
-            return {"message": "Không phát hiện đối tượng nào", "records": [], "plotted_filename": plotted_filename}
+            return {"message": "No objects detected", "records": [], "plotted_filename": plotted_filename}
         return {"message": None, "records": records, "plotted_filename": plotted_filename}
     except Exception as e:
-        return {"message": f"Lỗi YOLO: {e}", "records": [], "plotted_filename": plotted_filename}
+        return {"message": f"YOLO error: {e}", "records": [], "plotted_filename": plotted_filename}
 
 def predict_real_fake(image_path: str):
     img = Image.open(image_path).convert("RGB")
@@ -107,11 +107,11 @@ def predict_real_fake(image_path: str):
     return verdict, prob
 
 # ============================
-# Webcam xử lý realtime
+# Realtime webcam processing
 # ============================
 camera = cv2.VideoCapture(0)
 
-# Biến toàn cục để lưu kết quả realtime
+# Global variables to store realtime results
 latest_verdict = "N/A"
 latest_prob = 0.0
 latest_entity = "N/A"
@@ -132,11 +132,11 @@ def gen_frames():
                     records = df.to_dicts()
                 else:
                     records = df.to_dict(orient='records')
-                # chỉ lấy nhãn person
+                # Filter for 'person' class only
                 for r in records:
                     if r['name'] == 'person':
                         entities.append('person')
-            latest_entity = "person" if entities else "Khong phat hien nguoi"
+            latest_entity = "person" if entities else "No person detected"
 
             # EfficientNet-B4 custom
             img = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
@@ -149,7 +149,7 @@ def gen_frames():
             latest_verdict = verdict
             latest_prob = prob
 
-            # Overlay lên frame
+            # Overlay onto frame
             cv2.putText(frame, f"{verdict} ({prob:.2f})", (20,40),
                         cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 2)
             cv2.putText(frame, f"Entity: {latest_entity}", (20,80),
@@ -204,7 +204,7 @@ def video_feed():
     return Response(gen_frames(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
-# API để lấy kết quả realtime (cho webcam.html hiển thị thêm)
+# API to retrieve realtime results (for webcam display)
 @app.route('/webcam_status')
 def webcam_status():
     return jsonify({
@@ -215,3 +215,4 @@ def webcam_status():
 
 if __name__ == '__main__':
     app.run(debug=True)
+

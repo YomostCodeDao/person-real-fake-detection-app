@@ -1,56 +1,57 @@
-# ĐÂY LÀ HƯỚNG DẪN SỬ DỤNG SRC
+# SRC USAGE INSTRUCTIONS
 
-**TẢI 2 MODEL TRƯỚC, ĐỂ CHẠY CODE, RỒI HÃY LÀM CÁC BƯỚC TIẾP THEO** *Link tải:*  [Google Drive](https://drive.google.com/drive/folders/1PKR0FWo0GmaohdHH9aLMOK_Lg5Z7Em0Q?usp=sharing/)
+**DOWNLOAD BOTH MODELS FIRST BEFORE RUNNING CODE, THEN PROCEED WITH THE NEXT STEPS** *Download link:* [Google Drive](https://drive.google.com/drive/folders/1PKR0FWo0GmaohdHH9aLMOK_Lg5Z7Em0Q?usp=sharing/)
 
-# 1. Bật terminal(Chuyển sang git bash) và xem thử đang ở vị trí folder nào
+# 1. Open terminal (Switch to Git Bash) and check the current directory
 
-- Nếu là /src thì không cần làm gì cả
-- Nếu là /project thì dùng lệnh `cd src`
+- If in `/src`, no action needed
+- If in `/project`, run `cd src`
 
-# 2. Gõ lệnh
-**LẦN ĐẦU CHẠY THÌ DÙNG LỆNH 2.1**
-- 2.1. `python -m venv venv` (Tạo môi trường ảo - Xuất hiện một folder venv trong src) 
-- 2.2. `source venv/Scripts/activate ` (Kích hoạt môi trường ảo - Xuất hiện chữ .venv trên đầu mỗi dòng lệnh)
-- 2.3. `pip install -r requirements.txt` (Cài các thư viện cần thiết - Nếu lỗi hãy coi lại vị trí file requirements.txt)
-- 2.4. `python app.py` (Trong terminal (đã bật venv), gõ lệnh này )
+# 2. Run Commands
+**FOR FIRST TIME SETUP, RUN STEP 2.1**
+- 2.1. `python -m venv venv` (Create virtual environment - creates a `venv` folder in `src`)
+- 2.2. `source venv/Scripts/activate` (Activate virtual environment - `.venv` will appear in the prompt)
+- 2.3. `pip install -r requirements.txt` (Install required packages - if an error occurs, check the path to `requirements.txt`)
+- 2.4. `python app.py` (Run this inside the terminal with virtual environment activated)
 
-**Nếu chạy thành công, sẽ hiện log Flask và bạn mở trình duyệt tại địa chỉ: [http://127.0.0.1:5000/](http://127.0.0.1:5000/)**
-
-========
-
-# Chức năng chính
-
-## Upload Ảnh
-
-## Chọn ảnh từ máy → hệ thống sẽ:
-
-### Chạy YOLO để phát hiện đối tượng.
-
-### Chạy EfficientNet‑B4 custom để phân loại REAL/FAKE.
-
-### Hiển thị ảnh gốc, ảnh có bounding box, bảng kết quả YOLO, và kết luận REAL/FAKE.
-
-## Webcam Realtime
-
-## Mở webcam → hệ thống sẽ:
-
-### Chỉ phát hiện nhãn person.
-
-### Overlay kết quả REAL/FAKE + nhãn person trực tiếp lên video.
-### Hiển thị thêm 2 dòng thông tin dưới video:
-#### Kết quả REAL/FAKE
-#### Thực thể phát hiện (person / không phát hiện)
+**If started successfully, the Flask log will appear. Open your browser at: [http://127.0.0.1:5000/](http://127.0.0.1:5000/)**
 
 ========
-# CẤU TRÚC THƯ MỤC
+
+# Key Features
+
+## Image Upload
+
+## Select an image from your device → the system will:
+
+### Run YOLO for object detection.
+
+### Run custom EfficientNet-B4 for REAL/FAKE classification.
+
+### Display original image, image with bounding boxes, YOLO results table, and the REAL/FAKE verdict.
+
+## Realtime Webcam
+
+## Open webcam → the system will:
+
+### Detect only the `person` class.
+
+### Overlay REAL/FAKE result + person label directly onto the video feed.
+### Display 2 lines of information below the video:
+#### REAL/FAKE verdict
+#### Detected entity (`person` / no person detected)
+
+========
+# PROJECT STRUCTURE
 src/
 │
-├── app.py                          # Flask server chính
+├── app.py                          # Main Flask server
 ├── templates/
-│ ├── index.html                    # Giao diện upload ảnh
-│ └── webcam.html                   # Giao diện webcam realtime
+│ ├── index.html                    # Image upload interface
+│ └── webcam.html                   # Realtime webcam interface
 ├── static/
-│ └── uploads/                      # Ảnh upload và kết quả YOLO(chưa làm)
-├── requirements.txt                # Danh sách thư viện cần cài
-├── best_face_fake_detector2.pth    # Checkpoint EfficientNet-B4 custom
-└── yolo11n.pt                      # Model YOLO
+│ └── uploads/                      # Uploaded images and YOLO results
+├── requirements.txt                # Required Python packages
+├── best_face_fake_detector14b211.pth # Custom EfficientNet-B4 checkpoint
+└── yolo11n.pt                      # YOLO model
+

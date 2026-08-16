@@ -1,11 +1,11 @@
 <!-- src/templates/index.html -->
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phân tích ảnh thật / giả</title>
+    <title>Real / Fake Image Analysis</title>
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
@@ -129,10 +129,10 @@
             box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
             display: flex;
             justify-content: space-between;
-            /* Chỉnh để các ảnh nằm cùng một hàng */
+            /* Ensure images are aligned on the same row */
             align-items: center;
             flex-wrap: wrap;
-            /* Đảm bảo không bị đẩy ra ngoài */
+            /* Prevent overflowing */
             gap: 20px;
         }
 
@@ -155,7 +155,7 @@
             margin: 0;
             border-radius: 15px;
             max-width: 45%;
-            /* Đảm bảo ảnh không quá rộng */
+            /* Ensure image is not too wide */
         }
 
         .df-table {
@@ -197,30 +197,30 @@
 </head>
 
 <body>
-    <h1>Website phân tích ảnh thật / giả</h1>
+    <h1>Real / Fake Image Analysis</h1>
 
     <div class="nav">
-        <a href="{{ url_for('index') }}">Upload Ảnh</a>
-        <a href="{{ url_for('webcam') }}">Webcam Realtime</a>
+        <a href="{{ url_for('index') }}">Upload Image</a>
+        <a href="{{ url_for('webcam') }}">Realtime Webcam</a>
     </div>
 
     <div class="center-box">
         <div class="card">
-            <h2>Từ ảnh lưu</h2>
+            <h2>From Saved Image</h2>
             <form action="/" method="POST" enctype="multipart/form-data">
                 <div class="file-input">
-                    <label class="file-label" for="file">Chọn ảnh</label>
-                    <input type="file" name="file" id="file" accept="image/*" required title="Chọn ảnh từ máy">
+                    <label class="file-label" for="file">Choose Image</label>
+                    <input type="file" name="file" id="file" accept="image/*" required title="Choose image from device">
                 </div>
-                <div id="file-name" class="file-name">Chưa chọn file</div>
-                <button type="submit" class="action-button">Phân tích ảnh</button>
+                <div id="file-name" class="file-name">No file chosen</div>
+                <button type="submit" class="action-button">Analyze Image</button>
             </form>
         </div>
 
         <div class="card">
-            <h2>Webcam realtime</h2>
+            <h2>Realtime Webcam</h2>
             <a href="{{ url_for('webcam') }}">
-                <button class="action-button" type="button">Mở webcam</button>
+                <button class="action-button" type="button">Open Webcam</button>
             </a>
         </div>
     </div>
@@ -228,29 +228,29 @@
     {% if filename %}
     <div class="result-section">
         <div class="result-header">
-            <h2>Ảnh đã tải lên</h2>
-            <div class="result-filename">Tên file: {{ filename }}</div>
+            <h2>Uploaded Image</h2>
+            <div class="result-filename">Filename: {{ filename }}</div>
         </div>
 
-        <img src="{{ url_for('static', filename='uploads/' + filename) }}" alt="Ảnh gốc">
+        <img src="{{ url_for('static', filename='uploads/' + filename) }}" alt="Original image">
 
         {% if yolo_plotted %}
         <div>
-            <h3>Ảnh với bounding boxes (YOLO):</h3>
-            <img src="{{ url_for('static', filename='uploads/' + yolo_plotted) }}" alt="Ảnh đã vẽ YOLO">
+            <h3>Image with Bounding Boxes (YOLO):</h3>
+            <img src="{{ url_for('static', filename='uploads/' + yolo_plotted) }}" alt="YOLO Annotated Image">
         </div>
         {% endif %}
 
-        <h3>Kết quả từ YOLO:</h3>
+        <h3>YOLO Detection Results:</h3>
         {% if yolo_message %}
         <pre>{{ yolo_message }}</pre>
         {% else %}
         <table class="df-table">
             <thead>
                 <tr>
-                    <th>Tên lớp YOLO</th>
+                    <th>Class Name</th>
                     <th>Class ID</th>
-                    <th>Độ tin cậy</th>
+                    <th>Confidence</th>
                     <th>Box</th>
                 </tr>
             </thead>
@@ -267,14 +267,14 @@
         </table>
         {% endif %}
 
-        <h3>Kết quả từ EfficientNet‑B4 custom:</h3>
+        <h3>Custom EfficientNet‑B4 Result:</h3>
         {% if verdict %}
         <div class="verdict">
-            Kết luận: {{ verdict }}<br>
-            <span class="note-text">Xác suất REAL: {{ "%.2f"|format(prob * 100) }}%</span>
+            Verdict: {{ verdict }}<br>
+            <span class="note-text">REAL Probability: {{ "%.2f"|format(prob * 100) }}%</span>
         </div>
         {% else %}
-        <p>Không có kết quả từ EfficientNet‑B4 custom.</p>
+        <p>No result from custom EfficientNet‑B4.</p>
         {% endif %}
     </div>
     {% endif %}
@@ -286,10 +286,10 @@
             if (this.files && this.files.length > 0) {
                 fileName.textContent = this.files[0].name;
             } else {
-                fileName.textContent = 'Chưa chọn file';
+                fileName.textContent = 'No file chosen';
             }
         });
     </script>
 </body>
 
-</html>
+</html>
